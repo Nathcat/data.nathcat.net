@@ -40,7 +40,7 @@ try {
     echo "{\"status\": \"success\"}";
 }
 catch (Exception $e){
-    echo "{\"status\": \"fail\", \"message\": \"" . $e->getMessage() . "\"}";
+    echo "{\"status\": \"fail\", \"message\": \"The username " . $_POST["username"] . " is already in use.\"}";
 }
 
 $conn->close();
