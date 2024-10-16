@@ -1,5 +1,4 @@
-async function sso_try_login() {
-    let r;
+async function sso_try_login(callback) {
     fetch("https://data.nathcat.net/sso/try-login.php", {
         method: "POST",
         headers: {
@@ -11,7 +10,5 @@ async function sso_try_login() {
         })
     })
     .then((response) => response.json())
-    .then((json) => { r = json; });
-
-    return await r;
+    .then((callback(json)));
 }
