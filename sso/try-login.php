@@ -12,13 +12,11 @@ if ($DEBUG) {
 }
 
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
-    echo "{\"status\": \"fail\", \"message\": \"Invalid request.\"}";
-    die();
+    die("{\"status\": \"fail\", \"message\": \"Invalid request.\"}");
 }
 
 else if ($_POST["username"] == "" || $_POST["password"] == "") {
-    echo "{\"status\": \"fail\", \"message\": \"Please provide both username and password.\"}";
-    die();
+    die("{\"status\": \"fail\", \"message\": \"Please provide both username and password.\"}");
 }
 
 if ($DBEUG) {
