@@ -20,7 +20,7 @@ else if ($_POST["username"] == "" || $_POST["password"] == "") {
     die("{\"status\": \"fail\", \"message\": \"Please provide both username and password.\"}");
 }
 
-if ($DBEUG) {
+if ($DEBUG) {
     echo "<p>Username: " . $_POST["username"] . "<br>Password: " . $_POST["password"] . "</p>"; 
 }
 
