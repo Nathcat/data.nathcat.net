@@ -4,6 +4,7 @@ session_start();
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
     echo "{\"status\": \"fail\", \"message\": \"Invalid request.\"}";
