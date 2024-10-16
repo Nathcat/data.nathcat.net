@@ -6,6 +6,11 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
+$DEBUG = $_GET["DEBUG"];
+if ($DEBUG) {
+    echo "<p>In debug mode.</p>";
+}
+
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
     echo "{\"status\": \"fail\", \"message\": \"Invalid request.\"}";
     die();
@@ -14,6 +19,10 @@ if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POS
 else if ($_POST["username"] == "" || $_POST["password"] == "") {
     echo "{\"status\": \"fail\", \"message\": \"Please provide both username and password.\"}";
     die();
+}
+
+if ($DBEUG) {
+    echo "<p>Username: " . $_POST["username"] . "<br>Password: " . $_POST["password"] . "</p>"; 
 }
 
 $DB_server = "localhost:3306";
