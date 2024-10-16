@@ -9,5 +9,8 @@ async function sso_try_login(username, password, callback) {
         body: fd
     })
     .then((response) => response.json())
-    .then(callback);
+    .then(callback)
+    .catch((error) => {
+        console.log("SSO Request failed: " + error);
+    });
 }
