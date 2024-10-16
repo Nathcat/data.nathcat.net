@@ -1,1 +1,1 @@
-<?php header("Location: nathcat.net") ?>
+<?php header("Location: https://nathcat.net") ?>
