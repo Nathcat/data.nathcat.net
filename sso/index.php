@@ -13,7 +13,7 @@
 
     <body>
         <div class="content">
-            <?php include("../header.php"); ?>
+            <?php include("header.php"); ?>
 
             <div class="main align-center">
                 <?php 
@@ -37,7 +37,7 @@
                 ?>
             </div>
 
-            <?php include("../footer.php"); ?>
+            <?php include("footer.php"); ?>
         </div>
     </body>
 </html>
