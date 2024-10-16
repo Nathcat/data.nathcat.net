@@ -10,5 +10,5 @@ async function sso_try_login(callback) {
         })
     })
     .then((response) => response.json())
-    .then((callback(json)));
+    .then(callback);
 }
