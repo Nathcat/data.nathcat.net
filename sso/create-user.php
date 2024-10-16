@@ -35,15 +35,12 @@ if ($conn->connect_error) {
 
 $stmt = $conn->prepare("INSERT INTO Users (username, email, fullName, password) VALUES (?, ?, ?, SHA2(?, 256))");
 $stmt->bind_param("ssss", $_POST["username"], $_POST["email"], $_POST["fullName"], $_POST["password"]);
-$state = $stmt->execute();
-
-echo $state;
-
-if ($state) {
+try {
+    $stmt->execute();
     echo "{\"status\": \"success\"}";
 }
-else {
-    echo "{\"status\": \"fail\", \"message\": \"" . $stmt->error . "\"}";
+catch (Exception $e){
+    echo "{\"status\": \"fail\", \"message\": \"" . $e . "\"}";
 }
 
 $conn->close();
