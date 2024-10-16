@@ -6,6 +6,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
+if ($_SERVER["CONTENT_TYPE"] == "application/json") {
+    $_POST = json_decode(file_get_contents("php://input"), true);
+}
+
 $DEBUG = $_GET["DEBUG"];
 if ($DEBUG) {
     echo "<p>In debug mode.</p>";
