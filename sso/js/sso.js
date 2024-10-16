@@ -26,6 +26,6 @@ function sso_create_new_user(username, email, password, password2, fullName, cal
         method: "POST",
         body: fd
     })
-    .then((r) => response.json())
+    .then((r) => r.json())
     .then(callback);
 }
