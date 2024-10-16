@@ -37,11 +37,13 @@ $stmt = $conn->prepare("INSERT INTO Users (username, email, fullName, password) 
 $stmt->bind_param("ssss", $_POST["username"], $_POST["email"], $_POST["fullName"], $_POST["password"]);
 $state = $stmt->execute();
 
+echo $state;
+
 if ($state) {
     echo "{\"status\": \"success\"}";
 }
 else {
-    echo "{\"status\": \"fail\", \"error\": \"" . $stmt->error . "\"}";
+    echo "{\"status\": \"fail\", \"message\": \"" . $stmt->error . "\"}";
 }
 
 $conn->close();
