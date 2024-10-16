@@ -1,1 +1,1 @@
-<?php echo $_SERVER["SERVER_NAME"]; ?>
+<?php header("Location: https://nathcat.net") ?>
