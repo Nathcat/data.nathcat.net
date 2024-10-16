@@ -9,6 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 $DEBUG = $_GET["DEBUG"];
 if ($DEBUG) {
     echo "<p>In debug mode.</p>";
+    print_r($_POST);
 }
 
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
