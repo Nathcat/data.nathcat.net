@@ -40,7 +40,7 @@ try {
     echo "{\"status\": \"success\"}";
 }
 catch (Exception $e){
-    echo "{\"status\": \"fail\", \"message\": \"" . $e . "\"}";
+    echo "{\"status\": \"fail\", \"message\": \"" . $e->getMessage() . "\"}";
 }
 
 $conn->close();
