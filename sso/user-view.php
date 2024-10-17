@@ -1,6 +1,6 @@
 <h1>Welcome, <?php echo $_SESSION["user"]["fullName"] ?>.</h1>
 
-<img class="large-circle-photo pfp-border" src="<?php echo "https://data.nathcat.net/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
+<img class="large-circle-photo" src="<?php echo "https://data.nathcat.net/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
                 
 <div class="content-card">
     <h2>User information</h2>
