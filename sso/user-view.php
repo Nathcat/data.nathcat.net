@@ -10,6 +10,7 @@ if (isset($_POST["uploadPFP"])) {
         $stmt->bind_param("si", $filename, $_SESSION["user"]["id"]);
         $stmt->execute();
         $conn->close();
+        $_SESSION["user"]["pfpPath"] = $filename;
         echo "<div class='content-card'><h2>Uploaded profile picture.</h2></div>";
     }
     else {
