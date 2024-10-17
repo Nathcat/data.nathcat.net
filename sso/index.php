@@ -17,13 +17,9 @@
 
             <div class="main align-center">
                 <?php 
-                echo session_name();
                 session_start();
+                session_name("AuthCat-SSO");
                 print_r($_SESSION);
-                
-                $session_name = session_name("AuthCat-SSO");
-                session_set_cookie_params(0, '/', $_SERVER["SERVER_NAME"]);
-                session_start();
 
                 if (array_key_exists("login-error", $_SESSION)) {
                     echo "<div class='error-card'><h2>Login failed</h2><p>" . $_SESSION["login-error"] . "</p></div>";
