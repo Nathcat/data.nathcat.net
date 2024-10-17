@@ -1,1 +1,1 @@
-<?php header("Location: " . $_SERVER["SERVER_NAME"]) ?>
+<?php header("Location: https://nathcat.net") ?>
