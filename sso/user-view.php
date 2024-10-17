@@ -1,5 +1,5 @@
 <h1>Welcome, <?php echo $_SESSION["user"]["fullName"] ?>.</h1>
-<?php print_r($_SESSION); ?>
+
 <img class="large-circle-photo" src="<?php echo "https://data.nathcat.net/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
                 
 <div class="content-card">
