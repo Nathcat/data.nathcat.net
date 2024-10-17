@@ -18,9 +18,8 @@
             <div class="main align-center">
                 <?php 
                 session_name("AuthCat-SSO");
-                echo session_name();
+                session_set_cookie_params(0, "/", ".nathcat.net");
                 session_start();
-                print_r($_SESSION);
 
                 if (array_key_exists("login-error", $_SESSION)) {
                     echo "<div class='error-card'><h2>Login failed</h2><p>" . $_SESSION["login-error"] . "</p></div>";
