@@ -3,7 +3,7 @@ if (isset($_POST["uploadPFP"])) {
     $filename = $_FILES["uploadPFPFile"]["name"];
     $tempname = $_FILES["uploadPFPFile"]["tmp_name"];
     $folder = "../pfps/" . $filename;
-
+    echo "<pre>"; print_r($_FILES); echo "</pre>";
     if (move_uploaded_file($tempname, $folder)) {
         $conn = new mysqli("localhost", "sso", "", "SSO");
         $stmt = $conn->prepare("UPDATE Users SET pfpPath = ? WHERE id = ?");
