@@ -1,7 +1,9 @@
 <h1>Welcome, <?php echo $_SESSION["user"]["fullName"] ?>.</h1>
 
-<img class="large-circle-photo" src="<?php echo "https://data.nathcat.net/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
-                
+<div class="profile-picture">
+    <img src="<?php echo "https://data.nathcat.net/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
+</div>
+
 <div class="content-card">
     <h2>User information</h2>
     <p>Username: <?php echo $_SESSION["user"]["username"] ?></h1></p>
