@@ -3,7 +3,7 @@ if (isset($_POST["uploadPFP"])) {
     $filename = $_FILES["uploadPFPFile"]["name"];
     $tempname = $_FILES["uploadPFPFile"]["tmp_name"];
     $folder = "../pfps/" . $filename;
-    echo "<pre>"; print_r($_POST); echo "</pre>";
+
     if (move_uploaded_file($tempname, $folder)) {
         $conn = new mysqli("localhost", "sso", "", "SSO");
         $stmt = $conn->prepare("UPDATE Users SET pfpPath = ? WHERE id = ?");
@@ -25,7 +25,7 @@ if (isset($_POST["uploadPFP"])) {
     <img src="<?php echo "https://data.nathcat.net/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
 </div>
 
-<form class="row" method="POST" action="">
+<form class="row" method="POST" action="" enctype="multipart/form-data">
     <input type="file" name="uploadPFPFile" />
     <input type="submit" name="uploadPFP" />
 </form>
