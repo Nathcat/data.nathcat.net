@@ -2,29 +2,34 @@
 if (isset($_POST["uploadPFP"])) {
     $new_file = "../pfps/" . $_SESSION["user"]["id"] . ".png";
     
-    if (getimagesize($_FILES["uploadFilePFP"]["tmp_name"]) !== false) {  // This checks if the file is a valid image
-        if (move_uploaded_file($_FILES["uploadFilePFP"]["tmp_name"], $new_file)) {
-            echo "<div class='content-card'><h2>Uploaded profile picture</h2></div>";
-            
-            try {
-                $conn = new mysqli("localhost:3306", "sso", "", "SSO");
-                $stmt = $conn->prepare("UPDATE Users SET pfpPath = ? WHERE id = ?");
-                $new_file_name = $_SESSION["user"]["id"] . ".png";
-                $stmt->bind_param("sd", $new_file_name, $_SESSION["user"]["id"]);
-                $stmt->execute();
-                $conn->close();
+    if ($_FILES["uploadFilePFP"]["size"] != 0) {
+        if (getimagesize($_FILES["uploadFilePFP"]["tmp_name"]) !== false) {  // This checks if the file is a valid image
+            if (move_uploaded_file($_FILES["uploadFilePFP"]["tmp_name"], $new_file)) {
+                echo "<div class='content-card'><h2>Uploaded profile picture</h2></div>";
 
-                $_SESSION["user"]["pfpPath"] = $new_file_name;
-            } catch (Exception $e) {
-                echo "<div class='error-card'><h2>Failed to upload profile picture!</h2><p>" . $e->getMessage() . "</p></div>";
+                try {
+                    $conn = new mysqli("localhost:3306", "sso", "", "SSO");
+                    $stmt = $conn->prepare("UPDATE Users SET pfpPath = ? WHERE id = ?");
+                    $new_file_name = $_SESSION["user"]["id"] . ".png";
+                    $stmt->bind_param("sd", $new_file_name, $_SESSION["user"]["id"]);
+                    $stmt->execute();
+                    $conn->close();
+
+                    $_SESSION["user"]["pfpPath"] = $new_file_name;
+                } catch (Exception $e) {
+                    echo "<div class='error-card'><h2>Failed to upload profile picture!</h2><p>" . $e->getMessage() . "</p></div>";
+                }
+            }
+            else {
+                echo "<div class='error-card'><h2>Failed to upload profile picture!</h2></div>";
             }
         }
         else {
-            echo "<div class='error-card'><h2>Failed to upload profile picture!</h2></div>";
+            echo "<div class='error-card'><h2>Please select an image file!</h2></div>";
         }
     }
     else {
-        echo "<div class='error-card'><h2>Please select an image file!</h2></div>";
+        echo "<div class='error-card'><h2>Please select a file!</h2></div>";
     }
 }
 ?>
