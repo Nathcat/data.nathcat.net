@@ -17,8 +17,9 @@
 
             <div class="main align-center">
                 <?php 
-                session_start();
                 session_name("AuthCat-SSO");
+                echo session_name();
+                session_start();
                 print_r($_SESSION);
 
                 if (array_key_exists("login-error", $_SESSION)) {
