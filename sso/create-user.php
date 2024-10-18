@@ -64,7 +64,7 @@ try {
     $stmt->close();
 }
 catch (Exception $e) {
-    echo "{\"status\": \"fail\", \"message\": \"User was created but failed to create new user email notification.\"}";
+    echo "{\"status\": \"fail\", \"message\": \"User was created but failed to create new user email notification: " . $e->getMessage() . "\"}";
 }
 
 $conn->close();
