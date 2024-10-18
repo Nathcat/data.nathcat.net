@@ -43,11 +43,11 @@ $stmt = $conn->prepare("INSERT INTO Users (username, email, fullName, password) 
 $stmt->bind_param("ssss", $_POST["username"], $_POST["email"], $_POST["fullName"], $_POST["password"]);
 try {
     $stmt->execute();
-    echo "{\"status\": \"success\"}";
     $stmt->close();
 }
 catch (Exception $e){
-    echo "{\"status\": \"fail\", \"message\": \"The username " . $_POST["username"] . " is already in use.\"}";
+    $conn->close();
+    die("{\"status\": \"fail\", \"message\": \"The username " . $_POST["username"] . " is already in use.\"}");
 }
 
 try {
@@ -58,10 +58,12 @@ try {
     $id = $res->fetch_assoc()["id"];
 
     $stmt->close();
-    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, password) VALUES (?, \"Welcome!\", \"Dear \$fullName\$,\n\nWelcome to the Nathcat network!\n\nBest wishes,\nNathan.\")");
+    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, content) VALUES (?, \"Welcome!\", \"Dear \$fullName\$,\n\nWelcome to the Nathcat network!\n\nBest wishes,\nNathan.\")");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->close();
+
+    echo "{\"status\": \"success\"}";
 }
 catch (Exception $e) {
     echo "{\"status\": \"fail\", \"message\": \"User was created but failed to create new user email notification: " . $e->getMessage() . "\"}";
