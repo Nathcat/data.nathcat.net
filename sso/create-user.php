@@ -44,9 +44,27 @@ $stmt->bind_param("ssss", $_POST["username"], $_POST["email"], $_POST["fullName"
 try {
     $stmt->execute();
     echo "{\"status\": \"success\"}";
+    $stmt->close();
 }
 catch (Exception $e){
     echo "{\"status\": \"fail\", \"message\": \"The username " . $_POST["username"] . " is already in use.\"}";
+}
+
+try {
+    $stmt = $conn->prepare("SELECT id FROM Users WHERE username like ?");
+    $stmt->bind_param("s", $_POST["username"]);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $id = $res->fetch_assoc()["id"];
+
+    $stmt->close();
+    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, password) VALUES (?, \"Welcome!\", \"Dear \$fullName\$,\n\nWelcome to the Nathcat network!\n\nBest wishes,\nNathan.\")");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+}
+catch (Exception $e) {
+    echo "{\"status\": \"fail\", \"message\": \"User was created but failed to create new user email notification.\"}";
 }
 
 $conn->close();
