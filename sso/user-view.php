@@ -33,8 +33,8 @@ if (isset($_POST["uploadPFP"])) {
     }
 }
 ?>
-<div style="width: 100%;" class="row align-center justify-center">
-    <div class="column align-center justify-center">
+<div style="width: 100%; align-items: start;" class="row justify-center">
+    <div class="column justify-center">
         <h1>Welcome, <?php echo $_SESSION["user"]["fullName"]; ?>.</h1>
 
         <div class="profile-picture">
@@ -59,13 +59,27 @@ if (isset($_POST["uploadPFP"])) {
 
     <span class="quarter-spacer"></span>
     
-    <div class="column align-center justify-center">
+    <div class="column justify-center" style="align-items: start;">
         <div class="content-card column justify-center">
             <h2>User search</h2>
             <input type="text" id="search-username" placeholder="Username..." />
             <input type="text" id="search-fullname" placeholder="Full name..." />
             <button onclick="user_search('search-username', 'search-fullname', 'search-results')">Search</button>
             <div id="search-results" class="column justify-center"></div>
+
+            <script>
+                document.getElementById("search-username").addEventListener("keypress", (e) => { 
+                    if (e.key == "Enter") {
+                        user_search('search-username', 'search-fullname', 'search-results');
+                    } 
+                });
+
+                document.getElementById("search-fullname").addEventListener("keypress", (e) => { 
+                    if (e.key == "Enter") {
+                        user_search('search-username', 'search-fullname', 'search-results');
+                    } 
+                });
+            </script>
         </div>
     </div>
 </div>
