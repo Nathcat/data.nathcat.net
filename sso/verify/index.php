@@ -1,6 +1,6 @@
 <?php 
 session_name("AuthCat-SSO");
-//session_set_cookie_params(0, '/', ".nathcat.net"); 
+session_set_cookie_params(0, '/', ".nathcat.net"); 
 session_start();
 ?>
 
@@ -52,7 +52,7 @@ session_start();
                     $stmt->bind_param("i", $_SESSION["user"]["id"]);
                     $stmt->execute();
                     $res_set = $stmt->get_result();
-                    
+
                     $count = 0;
                     $success = false;
                     while ($res = $res_set->fetch_assoc()) {

@@ -4,7 +4,7 @@ function sso_try_login(username, password, callback) {
     fd.set("username", username);
     fd.set("password", password);
 
-    fetch("http://localhost/sso/try-login.php", {
+    fetch("https://data.nathcat.net/sso/try-login.php", {
         method: "POST",
         body: fd
     })

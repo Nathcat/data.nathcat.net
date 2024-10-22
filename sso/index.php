@@ -18,7 +18,7 @@
             <div class="main align-center">
                 <?php 
                 session_name("AuthCat-SSO");
-                //session_set_cookie_params(0, "/", ".nathcat.net");
+                session_set_cookie_params(0, "/", ".nathcat.net");
                 session_start();
 
                 if (array_key_exists("login-error", $_SESSION)) {
