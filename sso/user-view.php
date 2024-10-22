@@ -33,24 +33,39 @@ if (isset($_POST["uploadPFP"])) {
     }
 }
 ?>
+<div style="width: 100%;" class="row align-center justify-center">
+    <div class="column align-center justify-center">
+        <h1>Welcome, <?php echo $_SESSION["user"]["fullName"]; ?>.</h1>
 
-<h1>Welcome, <?php echo $_SESSION["user"]["fullName"]; ?>.</h1>
+        <div class="profile-picture">
+            <img src="<?php echo "/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
+        </div>
 
-<div class="profile-picture">
-    <img src="<?php echo "/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
+        <form class="row align-center" method="POST" enctype="multipart/form-data">
+            <input type="file" name="uploadFilePFP" />
+            <input type="submit" name="uploadPFP" value="Upload new profile picture" />
+        </form>
+
+        <div class="content-card">
+            <h2>User information</h2>
+            <p>Username: <?php echo $_SESSION["user"]["username"] ?></h1></p>
+            <p>Email: <?php echo $_SESSION["user"]["email"] ?></h1></p>
+            <p>Verified: <?php echo $_SESSION["user"]["verified"] == 1 ? "Yes" : "No, <a href='verify'>Click here to verify</a>" ?></p>
+            <a href="docs/policies/privacy-policy.php">View our privacy policy</a>
+        </div>
+
+        <button onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>
+    </div>
+
+    <span class="quarter-spacer"></span>
+    
+    <div class="column align-center justify-center">
+        <div class="content-card column justify-center">
+            <h2>User search</h2>
+            <input type="text" id="search-username" placeholder="Username..." />
+            <input type="text" id="search-fullname" placeholder="Full name..." />
+            <button onclick="user_search('search-username', 'search-fullname', 'search-results')">Search</button>
+            <div id="search-results" class="column justify-center"></div>
+        </div>
+    </div>
 </div>
-
-<form class="row align-center" method="POST" enctype="multipart/form-data">
-    <input type="file" name="uploadFilePFP" />
-    <input type="submit" name="uploadPFP" value="Upload new profile picture" />
-</form>
-
-<div class="content-card">
-    <h2>User information</h2>
-    <p>Username: <?php echo $_SESSION["user"]["username"] ?></h1></p>
-    <p>Email: <?php echo $_SESSION["user"]["email"] ?></h1></p>
-    <p>Verified: <?php echo $_SESSION["user"]["verified"] == 1 ? "Yes" : "No, <a href='verify'>Click here to verify</a>" ?></p>
-    <a href="docs/policies/privacy-policy.php">View our privacy policy</a>
-</div>
-
-<button onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>
