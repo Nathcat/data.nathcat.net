@@ -69,8 +69,8 @@ try {
     $code = $res->fetch_assoc()["code"];
     $stmt->close();
 
-    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, content) VALUES (?, \"Welcome!\", \"<p>Dear \$fullName\$,</p><p>Welcome to the Nathcat network!</p><p>Your verification code is ?</p><p>Best wishes,<br>Nathan.</p>\")");
-    $stmt->bind_param("is", $id, $code);
+    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, content) VALUES (?, \"Welcome!\", \"<p>Dear \$fullName\$,</p><p>Welcome to the Nathcat network!</p><p>Your verification code is " + $code + "</p><p>Best wishes,<br>Nathan.</p>\")");
+    $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->close();
 
