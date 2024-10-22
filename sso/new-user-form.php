@@ -18,6 +18,7 @@
     <input id="login-fullName" type="text" name="fullName" placeholder="Enter your name..." />
     <button onclick='sso_create_new_user($("#login-username").val(), $("#login-email").val(), $("#login-password").val(), $("#login-password2").val(), $("#login-fullName").val(), create_new_user_callback);'>Create new user</button>
     <a href="<?php echo dirname($_SERVER["PHP_SELF"]); ?>">Or, login</a>
+    <a href="docs/policies/privacy-policy.php">View our privacy policy</a>
 </div>
 
 <script>
