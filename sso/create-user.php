@@ -1,6 +1,6 @@
 <?php
 session_name("AuthCat-SSO");
-//session_set_cookie_params(0, '/', ".nathcat.net");
+session_set_cookie_params(0, '/', ".nathcat.net");
 session_start();
 
 header("Content-Type: application/json");
@@ -56,10 +56,21 @@ try {
     $stmt->execute();
     $res = $stmt->get_result();
     $id = $res->fetch_assoc()["id"];
-
     $stmt->close();
-    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, content) VALUES (?, \"Welcome!\", \"Dear \$fullName\$,\n\nWelcome to the Nathcat network!\n\nBest wishes,\nNathan.\")");
+
+    $stmt = $conn->prepare("INSERT INTO VerifyCodes (id, code) VALUES (?, LEFT(UUID(), 10))");
     $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+    
+    $stmt = $conn->prepare("SELECT code FROM VerifyCodes WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute(); $res = $stmt->get_result();
+    $code = $res->fetch_assoc()["code"];
+    $stmt->close();
+
+    $stmt = $conn->prepare("INSERT INTO Mailer.MailToSend (recipient, subject, content) VALUES (?, \"Welcome!\", \"<p>Dear \$fullName\$,</p><p>Welcome to the Nathcat network!</p><p>Your verification code is ?</p><p>Best wishes,<br>Nathan.</p>\")");
+    $stmt->bind_param("is", $id, $code);
     $stmt->execute();
     $stmt->close();
 
