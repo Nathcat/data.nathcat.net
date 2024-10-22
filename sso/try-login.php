@@ -1,6 +1,6 @@
 <?php
 session_name("AuthCat-SSO");
-session_set_cookie_params(0, '/', ".nathcat.net");
+//session_set_cookie_params(0, '/', ".nathcat.net");
 session_start();
 
 header("Content-Type: application/json");
@@ -12,8 +12,7 @@ if ($_SERVER["CONTENT_TYPE"] == "application/json") {
     $_POST = json_decode(file_get_contents("php://input"), true);
 }
 
-$DEBUG = $_GET["DEBUG"];
-if ($DEBUG) {
+if (array_key_exists("DEBUG", $_GET)) {
     echo "<p>In debug mode.</p>";
     print_r($_POST);
 }
@@ -26,7 +25,7 @@ else if ($_POST["username"] == "" || $_POST["password"] == "") {
     die("{\"status\": \"fail\", \"message\": \"Please provide both username and password.\"}");
 }
 
-if ($DEBUG) {
+if (array_key_exists("DEBUG", $_GET)) {
     echo "<p>Username: " . $_POST["username"] . "<br>Password: " . $_POST["password"] . "</p>"; 
 }
 

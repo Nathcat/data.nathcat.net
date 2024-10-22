@@ -49,6 +49,7 @@ if (isset($_POST["uploadPFP"])) {
     <h2>User information</h2>
     <p>Username: <?php echo $_SESSION["user"]["username"] ?></h1></p>
     <p>Email: <?php echo $_SESSION["user"]["email"] ?></h1></p>
+    <p>Verified: <?php echo $_SESSION["user"]["verified"] == 1 ? "Yes" : "No, <a href='verify'>Click here to verify</a>" ?></p>
 </div>
 
 <button onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>

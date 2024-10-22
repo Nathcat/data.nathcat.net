@@ -26,6 +26,13 @@
     <a href="<?php echo dirname($_SERVER["PHP_SELF"]); ?>?newUser">Or, create a new user</a>
 </div>
 
+<!--<form class="column align-center" method="POST" action="try-login.php">
+    <input id="login-username" type="text" name="username" placeholder="Enter username..." />
+    <input id="login-password" type="password" name="password" placeholder="Enter password..." />
+    <input type="submit" value="Login" />
+    <a href="<?php echo dirname($_SERVER["PHP_SELF"]); ?>?newUser">Or, create a new user</a>
+</form>-->
+
 <script>
     let login_enter_callback = (event) => {
         if (event.key === "Enter") {
