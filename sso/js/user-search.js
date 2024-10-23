@@ -5,7 +5,7 @@ function user_search(username_entry, fullName_entry, results_container_name) {
     if (username !== "") body.username = username;
     if (fullName !== "") body.fullName = fullName;
 
-    fetch("https://data.nathcat.net/sso/user-search.php", {
+    fetch(baseURL + "/sso/user-search.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
@@ -20,7 +20,7 @@ function user_search(username_entry, fullName_entry, results_container_name) {
         results_container.innerHTML = "";
         let results = r.results;
         for (const [key, value] of Object.entries(results)) {
-            fetch("https://data.nathcat.net/sso/user-card.php?id=" + key)
+            fetch(baseURL + "/sso/user-card.php?id=" + key)
             .then((r) => r.text())
             .then((r) => {
                 results_container.innerHTML += r;

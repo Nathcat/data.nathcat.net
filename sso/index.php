@@ -4,6 +4,7 @@
         <title>AuthCat</title>
 
         <link rel="stylesheet" href="https://nathcat.net/static/css/new-common.css">
+        <link rel="stylesheet" href="styles/sso.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -18,9 +19,7 @@
 
             <div class="main align-center">
                 <?php 
-                session_name("AuthCat-SSO");
-                session_set_cookie_params(0, "/", ".nathcat.net");
-                session_start();
+                include("start-session.php");
 
                 if (array_key_exists("login-error", $_SESSION)) {
                     echo "<div class='error-card'><h2>Login failed</h2><p>" . $_SESSION["login-error"] . "</p></div>";

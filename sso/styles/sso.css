@@ -1,0 +1,19 @@
+@media (width > 1000px) {
+    .user-view-container {
+        display: grid;
+        place-items: start center;
+        grid-template-columns: 1fr 0.25fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "user-data . user-search";
+    }
+}
+
+@media (max-width: 1000px) {
+    .user-view-container {
+        display: grid;
+        place-items: start center;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 0.25fr 1fr;
+        grid-template-areas: "user-data" "." "user-search";
+    }
+}

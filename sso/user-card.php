@@ -14,11 +14,12 @@ $stmt->bind_param("i", $_GET["id"]);
 $stmt->execute(); $res = $stmt->get_result()->fetch_assoc();
 
 if ($res) : ?>
-    <div style="border: 2px solid #aaaaaa;" class="content-card row align-center justify-center">
+    <div style="border: 2px solid #aaaaaa; justify-content: start;" class="content-card row align-center">
         <div class="small-profile-picture">
             <img src="/pfps/<?php echo $res["pfpPath"]; ?>">
         </div>
-        <div style="padding-left: 10px;" class="column align-center justify-center">
+        <span class="half-spacer"></span>
+        <div class="column align-center justify-center">
             <h3><?php echo $res["fullName"]; ?></h3>
             <p><?php echo $res["username"]; ?></p>
         </div>

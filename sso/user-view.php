@@ -33,8 +33,8 @@ if (isset($_POST["uploadPFP"])) {
     }
 }
 ?>
-<div style="width: 100%; align-items: start;" class="row justify-center">
-    <div class="column justify-center">
+<div class="user-view-container">
+    <div style="grid-area: user-data; width: 100%;" class="column justify-center align-center">
         <h1>Welcome, <?php echo $_SESSION["user"]["fullName"]; ?>.</h1>
 
         <div class="profile-picture">
@@ -46,7 +46,7 @@ if (isset($_POST["uploadPFP"])) {
             <input type="submit" name="uploadPFP" value="Upload new profile picture" />
         </form>
 
-        <div class="content-card">
+        <div class="content-card" style="width: 100%;">
             <h2>User information</h2>
             <p>Username: <?php echo $_SESSION["user"]["username"] ?></h1></p>
             <p>Email: <?php echo $_SESSION["user"]["email"] ?></h1></p>
@@ -54,12 +54,12 @@ if (isset($_POST["uploadPFP"])) {
             <a href="docs/policies/privacy-policy.php">View our privacy policy</a>
         </div>
 
-        <button onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>
+        <button style="width: 100%;" onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>
     </div>
 
-    <span class="quarter-spacer"></span>
+    <span></span>
     
-    <div class="column justify-center" style="align-items: start;">
+    <div style="grid-area: user-search; width: 100%;">
         <div class="content-card column justify-center">
             <h2>User search</h2>
             <input type="text" id="search-username" placeholder="Username..." />

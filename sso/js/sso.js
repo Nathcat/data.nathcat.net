@@ -1,10 +1,12 @@
+const baseURL = "http://localhost";
+
 function sso_try_login(username, password, callback) {
 
     let fd = new FormData();
     fd.set("username", username);
     fd.set("password", password);
 
-    fetch("https://data.nathcat.net/sso/try-login.php", {
+    fetch(baseURL + "/sso/try-login.php", {
         method: "POST",
         body: fd
     })
@@ -22,7 +24,7 @@ function sso_create_new_user(username, email, password, password2, fullName, cal
     fd.set("password", password);
     fd.set("password2", password2);
     fd.set("fullName", fullName);
-    fetch("https://data.nathcat.net/sso/create-user.php", {
+    fetch(baseURL + "/sso/create-user.php", {
         method: "POST",
         body: fd
     })
