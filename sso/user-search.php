@@ -20,7 +20,7 @@ if ($conn->connect_error) {
     die("{\"state\": \"fail\", \"message\": \"" . $conn->connect_error . "\"}");
 }
 
-if (array_key_exists("username", $_POST) && $_POST["username"] != "") {
+if (!array_key_exists("id", $_POST) && array_key_exists("username", $_POST) && $_POST["username"] != "") {
     $stmt = $conn->prepare("SELECT id, username, fullName FROM Users WHERE username LIKE ?");
     $username_pattern = $_POST["username"] . "%";
     $stmt->bind_param("s", $username_pattern);
@@ -33,7 +33,7 @@ if (array_key_exists("username", $_POST) && $_POST["username"] != "") {
     $stmt->close();
 }
 
-if (array_key_exists("fullName", $_POST) && $_POST["fullName"] != "") {
+if (!array_key_exists("id", $_POST) && array_key_exists("fullName", $_POST) && $_POST["fullName"] != "") {
     $stmt = $conn->prepare("SELECT id, username, fullName FROM Users WHERE fullName LIKE ?");
     $fullName_pattern = $_POST["fullName"] . "%";
     $stmt->bind_param("s", $fullName_pattern);
@@ -41,6 +41,21 @@ if (array_key_exists("fullName", $_POST) && $_POST["fullName"] != "") {
 
     while ($res = $res_set->fetch_assoc()) {
         $results[$res["id"]] = $res;
+    }
+
+    $stmt->close();
+}
+
+if (array_key_exists("id", $_POST)) {
+    $stmt = $conn->prepare("SELECT id, username, fullName FROM Users WHERE id = ?");
+    $stmt->bind_param("i", $_POST["id"]);
+    $stmt->execute(); $res_set = $stmt->get_result();
+
+    if ($res = $res_set->fetch_assoc()) {
+        $results[$res["id"]] = $res;
+    }
+    else {
+        die("{\"state\": \"fail\", \"message\": \"User not found\"}");
     }
 
     $stmt->close();
