@@ -44,7 +44,13 @@ $stmt->bind_param("s", $_POST["username"]);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$pass_hash = hash("sha256", $_POST["password"]);
+if (array_key_exists("pre-hashed", $_POST)) {
+    $pass_hash = $_POST["password"];
+}
+else {
+    $pass_hash = hash("sha256", $_POST["password"]);
+}
+
 $DB_r = $result->fetch_assoc();
 
 if ($DB_r["password"] == $pass_hash) {
