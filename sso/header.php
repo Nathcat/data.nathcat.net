@@ -2,5 +2,5 @@
 
 <div class="navbar">
     <h1 id="navbar-title">AuthCat</h1>
-    <a href="https://nathcat.net">Part of the Nathcat Network</a>
+    <a style="width: 100%;" href="https://nathcat.net">Part of the Nathcat Network</a>
 </div>
