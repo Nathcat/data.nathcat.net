@@ -15,7 +15,7 @@
             method: "POST",
             body: fd
         })
-        .then((r) => { location.reload(); });
+        .then((r) => { if (fd.has("return-page")) window.location = fd.get("return-page"); else location.reload(); });
     }
 </script>
 
