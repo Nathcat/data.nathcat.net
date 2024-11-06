@@ -45,7 +45,17 @@ $stmt->execute();
 $result = $stmt->get_result();
 $DB_r = $result->fetch_assoc();
 
-if (password_verify($_POST["password"], $DB_r["password"])) {
+if (!$DB_r["passwordUpdated"]) {
+    $pass_hash = hash("sha256", $_POST["password"]);
+    
+    if ($DB_r["password"] == $pass_hash) {
+        echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
+    }
+    else {
+        echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
+    }
+}
+else if (password_verify($_POST["password"], $DB_r["password"])) {
     echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
 }
 else {
