@@ -43,17 +43,19 @@ $stmt = $conn->prepare("SELECT * FROM Users WHERE username LIKE ?");
 $stmt->bind_param("s", $_POST["username"]);
 $stmt->execute();
 $result = $stmt->get_result();
-
-if (array_key_exists("pre-hashed", $_POST)) {
-    $pass_hash = $_POST["password"];
-}
-else {
-    $pass_hash = hash("sha256", $_POST["password"]);
-}
-
 $DB_r = $result->fetch_assoc();
 
-if ($DB_r["password"] == $pass_hash) {
+if (!$DB_r["passwordUpdated"]) {
+    $pass_hash = hash("sha256", $_POST["password"]);
+    
+    if ($DB_r["password"] == $pass_hash) {
+        echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
+    }
+    else {
+        echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
+    }
+}
+else if (password_verify($_POST["password"], $DB_r["password"])) {
     echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
 }
 else {
