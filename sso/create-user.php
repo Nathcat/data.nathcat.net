@@ -36,8 +36,9 @@ if ($conn->connect_error) {
     die("{\"status\": \"fail\", \"message\": \"Failed to connect to the database: " . $conn->connect_error . "\"}");
 }
 
-$stmt = $conn->prepare("INSERT INTO Users (username, email, fullName, password) VALUES (?, ?, ?, SHA2(?, 256))");
-$stmt->bind_param("ssss", $_POST["username"], $_POST["email"], $_POST["fullName"], $_POST["password"]);
+$hashed_pass = password_hash($_POST["password"], PASSWORD_DEFAULT);
+$stmt = $conn->prepare("INSERT INTO Users (username, email, fullName, password) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("ssss", $_POST["username"], $_POST["email"], $_POST["fullName"], $hashed_pass);
 try {
     $stmt->execute();
     $stmt->close();
