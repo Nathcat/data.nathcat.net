@@ -52,6 +52,7 @@ if (!$DB_r["passwordUpdated"]) {
     if ($DB_r["password"] == $pass_hash) {
         echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
         $_SESSION["user"] = $DB_r;
+        unset($_SESSION["login-error"]);
     }
     else {
         echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
@@ -61,6 +62,7 @@ if (!$DB_r["passwordUpdated"]) {
 else if (password_verify($_POST["password"], $DB_r["password"])) {
     echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
     $_SESSION["user"] = $DB_r;
+    unset($_SESSION["login-error"]);
 }
 else {
     echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
