@@ -38,7 +38,9 @@ slidingEntry_finished_entry_callback = () => {
         (response) => {
             let fd = new FormData();
 
-            console.log(response);
+            <?php if (array_key_exists("return-page", $_GET)):?>
+                fd.set("return-page", "<?php echo $_GET["return-page"]?>");    
+            <?php endif; ?>
 
             if (response.status === "success") {
                 fd.set("user", JSON.stringify(response.user));
