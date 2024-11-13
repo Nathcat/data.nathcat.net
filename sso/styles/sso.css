@@ -9,6 +9,11 @@
 }
 
 @media (max-width: 1000px) {
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
     .user-view-container {
         display: grid;
         place-items: start center;
