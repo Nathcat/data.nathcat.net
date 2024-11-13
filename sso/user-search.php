@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 }
 
 if (!array_key_exists("id", $_POST) && array_key_exists("username", $_POST) && $_POST["username"] != "") {
-    $stmt = $conn->prepare("SELECT id, username, fullName FROM Users WHERE username LIKE ?");
+    $stmt = $conn->prepare("SELECT id, username, fullName, pfpPath FROM Users WHERE username LIKE ?");
     $username_pattern = $_POST["username"] . "%";
     $stmt->bind_param("s", $username_pattern);
     $stmt->execute(); $res_set = $stmt->get_result();
@@ -34,7 +34,7 @@ if (!array_key_exists("id", $_POST) && array_key_exists("username", $_POST) && $
 }
 
 if (!array_key_exists("id", $_POST) && array_key_exists("fullName", $_POST) && $_POST["fullName"] != "") {
-    $stmt = $conn->prepare("SELECT id, username, fullName FROM Users WHERE fullName LIKE ?");
+    $stmt = $conn->prepare("SELECT id, username, fullName, pfpPath FROM Users WHERE fullName LIKE ?");
     $fullName_pattern = $_POST["fullName"] . "%";
     $stmt->bind_param("s", $fullName_pattern);
     $stmt->execute(); $res_set = $stmt->get_result();
@@ -47,7 +47,7 @@ if (!array_key_exists("id", $_POST) && array_key_exists("fullName", $_POST) && $
 }
 
 if (array_key_exists("id", $_POST)) {
-    $stmt = $conn->prepare("SELECT id, username, fullName FROM Users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, username, fullName, pfpPath FROM Users WHERE id = ?");
     $stmt->bind_param("i", $_POST["id"]);
     $stmt->execute(); $res_set = $stmt->get_result();
 
