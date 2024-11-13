@@ -48,6 +48,7 @@ slidingEntry_finished_entry_callback = () => {
             <?php 
             if (array_key_exists("return-page", $_GET)): ?>
                 window.location = "<?php echo $_GET["return-page"]; ?>";
+                location.reload();
             <?php endif; ?>
         }
     )
