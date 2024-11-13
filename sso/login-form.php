@@ -38,10 +38,6 @@ slidingEntry_finished_entry_callback = () => {
         (response) => {
             let fd = new FormData();
 
-            <?php if (array_key_exists("return-page", $_GET)):?>
-                fd.set("return-page", "<?php echo $_GET["return-page"]?>");    
-            <?php endif; ?>
-
             if (response.status === "success") {
                 fd.set("user", JSON.stringify(response.user));
             }
@@ -49,11 +45,10 @@ slidingEntry_finished_entry_callback = () => {
                 fd.set("login-error", response.message);
             }
 
-            fetch("login.php", {
-                method: "POST",
-                body: fd
-            })
-                .then((r) => { if (fd.has("return-page")) window.location = fd.get("return-page"); else location.reload(); });
+            <?php 
+            if (array_key_exists("return-page", $_GET)): ?>
+                window.location = "<?php echo $_GET["return-page"]; ?>";
+            <?php endif; ?>
         }
     )
 };

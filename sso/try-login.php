@@ -20,6 +20,7 @@ if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POS
 }
 
 else if ($_POST["username"] == "" || $_POST["password"] == "") {
+    $_SESSION["login-error"] = "Please provide both username and password";
     die("{\"status\": \"fail\", \"message\": \"Please provide both username and password.\"}");
 }
 
@@ -50,16 +51,20 @@ if (!$DB_r["passwordUpdated"]) {
     
     if ($DB_r["password"] == $pass_hash) {
         echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
+        $_SESSION["user"] = $DB_r;
     }
     else {
         echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
+        $_SESSION["login-error"] = "Incorrect username / password";
     }
 }
 else if (password_verify($_POST["password"], $DB_r["password"])) {
     echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
+    $_SESSION["user"] = $DB_r;
 }
 else {
     echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
+    $_SESSION["login-error"] = "Incorrect username / password";
 }
 
 $conn->close();
