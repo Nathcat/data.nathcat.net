@@ -3,9 +3,10 @@ include("../sso/start-session.php");
 include("sudoku-utils.php");
 
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: sudoku.nathcat.net");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Credentials: true");
 
 if (!array_key_exists("user", $_SESSION)) {
     die("{\"status\": \"fail\", \"message\": \"Not logged in.\"}");
