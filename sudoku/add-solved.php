@@ -5,6 +5,7 @@ include("sudoku-utils.php");
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST");
 
 if (!array_key_exists("user", $_SESSION)) {
     die("{\"status\": \"fail\", \"message\": \"Not logged in.\"}");
