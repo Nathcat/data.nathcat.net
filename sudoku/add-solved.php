@@ -10,6 +10,10 @@ if (!array_key_exists("user", $_SESSION)) {
     die("{\"status\": \"fail\", \"message\": \"Not logged in.\"}");
 }
 
+if (!array_key_exists("HAS_SOLVED_SUDOKU", $_SESSION)) {
+    die("{\"status\": \"fail\", \"message\": \"You have not just solved a sudoku.\"}");
+}
+
 if ($_SERVER["CONTENT_TYPE"] == "text/plain") {
     $_PUZZLE = file_get_contents("php://input");
     $_PUZZLE = explode("\n", $_PUZZLE);
@@ -46,4 +50,5 @@ $stmt->execute(); $stmt->close();
 $conn->close();
 
 echo "{\"status\": \"success\"}";
+unset($_SESSION["HAS_SOLVED_SUDOKU"]);
 ?>
