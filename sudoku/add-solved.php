@@ -26,13 +26,17 @@ if ($_SERVER["CONTENT_TYPE"] == "text/plain") {
             return intval($x);
         }, explode(" ", $v));
     }, $_PUZZLE);
+
+    print_r($_PUZZLE);
 }
 else {
+    unset($_SESSION["HAS_SOLVED_SUDOKU"]);
     die("{\"status\": \"fail\", \"message\": \"May only pass text/plain with body as Sudoku data.\"}");
 }
 
 if (!is_solved($_PUZZLE)) {
-    die("{\"status\": \"fail\", \"message\": \"Submitted puzzle is not solved!\"}");
+    unset($_SESSION["HAS_SOLVED_SUDOKU"]);
+    die("{\"status\": \"fail\", \"message\": \"Submitted puzzle is not solved!\", \"puzzle\": \"" + "\"}");
 }
 
 $conn = new mysqli("localhost:3306", "Sudoku", "", "Sudoku");
