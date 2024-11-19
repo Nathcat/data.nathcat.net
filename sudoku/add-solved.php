@@ -3,7 +3,7 @@ include("../sso/start-session.php");
 include("sudoku-utils.php");
 
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: sudoku.nathcat.net");
+header("Access-Control-Allow-Origin: https://sudoku.nathcat.net");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Credentials: true");
