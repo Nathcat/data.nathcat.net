@@ -26,6 +26,10 @@
                 }
 
                 if (array_key_exists("user", $_SESSION)) { 
+                    if (array_key_exists("return-page", $_GET)) {
+                        header("Location: " . $_GET["return-page"]);
+                    }
+
                     include("user-view.php"); 
                 } 
                 else { 

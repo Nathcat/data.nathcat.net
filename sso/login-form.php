@@ -19,27 +19,39 @@
     }
 </script>
 
-<div class="column align-center">
-    <input id="login-username" type="text" name="username" placeholder="Enter username..." />
-    <input id="login-password" type="password" name="password" placeholder="Enter password..." />
-    <button onclick="sso_try_login(document.getElementById('login-username').value, document.getElementById('login-password').value, login_form_callback);">Login</button>
-    <a href="<?php echo dirname($_SERVER["PHP_SELF"]); ?>?newUser">Or, create a new user</a>
+<div class="sliding-entry-container">
+    <input tabindex="-1" class="big-entry" type="text" id="username-entry" placeholder="Enter your username..."/>
+    <input tabindex="-1" style="left: 100%; top: 0;" class="big-entry" type="password" id="password-entry" placeholder="Enter your password..."/>-->
 </div>
 
-<!--<form class="column align-center" method="POST" action="try-login.php">
-    <input id="login-username" type="text" name="username" placeholder="Enter username..." />
-    <input id="login-password" type="password" name="password" placeholder="Enter password..." />
-    <input type="submit" value="Login" />
-    <a href="<?php echo dirname($_SERVER["PHP_SELF"]); ?>?newUser">Or, create a new user</a>
-</form>-->
+<a style="z-index: 1;"href="?newUser">Or, create a new user</a>
 
+<script src="js/slidingEntry.js"></script>
 <script>
-    let login_enter_callback = (event) => {
-        if (event.key === "Enter") {
-            sso_try_login(document.getElementById('login-username').value, document.getElementById('login-password').value, login_form_callback);
-        }
-    };
+slidingEntry_setup(["username-entry", "password-entry"]);
 
-    document.getElementById("login-username").addEventListener("keypress", login_enter_callback);
-    document.getElementById("login-password").addEventListener("keypress", login_enter_callback);
+slidingEntry_finished_entry_callback = () => {
+    sso_try_login(
+        document.getElementById("username-entry").value,
+        document.getElementById("password-entry").value,
+
+        (response) => {
+            let fd = new FormData();
+
+            if (response.status === "success") {
+                fd.set("user", JSON.stringify(response.user));
+            }
+            else {
+                fd.set("login-error", response.message);
+            }
+
+            <?php 
+            if (array_key_exists("return-page", $_GET)): ?>
+                window.location = "<?php echo $_GET["return-page"]; ?>";
+            <?php endif; ?>
+
+            location.reload();
+        }
+    )
+};
 </script>
