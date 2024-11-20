@@ -33,7 +33,8 @@ if ($_SERVER["CONTENT_TYPE"] == "text/plain" || array_key_exists("DEBUG", $_GET)
     }, $_PUZZLE);
 
     if (array_key_exists("DEBUG", $_GET)) {
-        echo is_solved($_PUZZLE);
+        if (is_solved($_PUZZLE)) echo "solved";
+        else echo "Not solved";
     }
 }
 else {
