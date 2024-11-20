@@ -16,5 +16,7 @@ $stmt = $conn->prepare("SELECT count as `puzzles-solved` FROM PuzzlesSolved WHER
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $res = $stmt->get_result()->fetch_assoc();
 
+$stmt->close();
+$conn->close();
 echo json_encode($res);
 ?>
