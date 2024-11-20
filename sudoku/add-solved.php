@@ -57,9 +57,15 @@ if (array_key_exists("DEBUG", $_GET)) {
     echo "Starting SQL.";
 }
 
-$stmt = $conn->prepare("INSERT INTO PuzzlesSolved (id) VALUES (?)");
-$stmt->bind_param("i", $_SESSION["user"]["id"]);
-$stmt->execute(); $stmt->close();
+try {
+    $stmt = $conn->prepare("INSERT INTO PuzzlesSolved (id) VALUES (?)");
+    $stmt->bind_param("i", $_SESSION["user"]["id"]);
+    $stmt->execute(); $stmt->close();
+} catch (Exception $e) {
+    if (array_key_exists("DEBUG", $_GET)) {
+        echo $e;
+    }
+}
 
 if (array_key_exists("DEBUG", $_GET)) {
     echo "Done first query.";
