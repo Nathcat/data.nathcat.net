@@ -53,13 +53,25 @@ if ($conn->connect_error) {
     die("{\"status\": \"fail\", \"message\": \"Failed to connect to the database: " . $conn->connect_error . "\"}");
 }
 
+if (array_key_exists("DEBUG", $_GET)) {
+    echo "Starting SQL.";
+}
+
 $stmt = $conn->prepare("INSERT INTO PuzzlesSolved (id) VALUES (?)");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $stmt->close();
 
+if (array_key_exists("DEBUG", $_GET)) {
+    echo "Done first query.";
+}
+
 $stmt = $conn->prepare("UPDATE PuzzlesSolved SET count = count + 1 WHERE id = ?");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $stmt->close();
+
+if (array_key_exists("DEBUG", $_GET)) {
+    echo "Done second query.";
+}
 
 $conn->close();
 
