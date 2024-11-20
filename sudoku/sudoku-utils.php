@@ -215,7 +215,7 @@ function is_solved($p) {
             $c = get_candidates($p, $x, $y);
             $p[$y][$x] = $v;
 
-            if (!check_values_ignore_arrays($v, $c)) return false;
+            if (check_values_ignore_arrays($v, $c)) return false;
         }
     }
 
