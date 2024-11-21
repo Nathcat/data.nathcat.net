@@ -58,7 +58,7 @@ if (array_key_exists("DEBUG", $_GET)) {
 }
 
 try {
-    $stmt = $conn->prepare("INSERT INTO PuzzlesSolved (id) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO UserData (id) VALUES (?)");
     $stmt->bind_param("i", $_SESSION["user"]["id"]);
     $stmt->execute(); $stmt->close();
 } catch (Exception $e) {
@@ -71,7 +71,7 @@ if (array_key_exists("DEBUG", $_GET)) {
     echo "Done first query.";
 }
 
-$stmt = $conn->prepare("UPDATE PuzzlesSolved SET count = count + 1 WHERE id = ?");
+$stmt = $conn->prepare("UPDATE UserData SET puzzlesSolved = puzzlesSolved + 1 WHERE id = ?");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $stmt->close();
 
