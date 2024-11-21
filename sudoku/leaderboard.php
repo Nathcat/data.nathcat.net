@@ -14,7 +14,7 @@ $stmt->execute(); $set = $stmt->get_result();
 $res = [];
 
 while ($r = $set->fetch_assoc()) {
-    echo $r;
+    print_r($r);
     array_push($res, $r);
 }
 
