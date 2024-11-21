@@ -14,9 +14,8 @@ $stmt->execute(); $set = $stmt->get_result();
 $res = [];
 
 while ($r = $set->fetch_assoc()) {
-    print_r($r);
     array_push($res, $r);
 }
 
-return json_encode($res);
+echo json_encode($res);
 ?>
