@@ -22,10 +22,12 @@ try {
     $stmt->execute();
 }
 catch (Exception $e) {
+    $stmt->close();
     $conn->close();
     die("{\"status\": \"fail\", \"message\": \"$e\"}");
 }
 
+$stmt->close();
 $conn->close();
 echo "{\"status\": \"success\"}";
 
