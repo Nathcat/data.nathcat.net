@@ -10,14 +10,14 @@ if ($_SERVER["CONTENT_TYPE"] == "application/json") {
     $_POST = json_decode(file_get_contents("php://input"), true);
 }
 else if ($_SERVER["CONTENT_TYPE"] != "multipart/form-data") {
-    die("{\"state\": \"fail\", \"message\": \"Invalid request\"}");
+    die("{\"status\": \"fail\", \"message\": \"Invalid request\"}");
 }
 
 $results = [];
 $conn = new mysqli("localhost:3306", "sso", "", "SSO");
 
 if ($conn->connect_error) {
-    die("{\"state\": \"fail\", \"message\": \"" . $conn->connect_error . "\"}");
+    die("{\"status\": \"fail\", \"message\": \"" . $conn->connect_error . "\"}");
 }
 
 if (!array_key_exists("id", $_POST) && array_key_exists("username", $_POST) && $_POST["username"] != "") {
@@ -55,7 +55,7 @@ if (array_key_exists("id", $_POST)) {
         $results[$res["id"]] = $res;
     }
     else {
-        die("{\"state\": \"fail\", \"message\": \"User not found\"}");
+        die("{\"status\": \"fail\", \"message\": \"User not found\"}");
     }
 
     $stmt->close();
@@ -64,7 +64,7 @@ if (array_key_exists("id", $_POST)) {
 $conn->close();
 
 $o = [
-    "state" => "success",
+    "status" => "success",
     "results" => $results
 ];
 
