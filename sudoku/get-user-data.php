@@ -12,7 +12,7 @@ if (!array_key_exists("user", $_SESSION)) {
 }
 
 $conn = new mysqli("localhost:3306", "Sudoku", "", "Sudoku");
-$stmt = $conn->prepare("SELECT count as `puzzles-solved` FROM PuzzlesSolved WHERE id = ?");
+$stmt = $conn->prepare("SELECT * FROM UserData WHERE id = ?");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $res = $stmt->get_result()->fetch_assoc();
 
