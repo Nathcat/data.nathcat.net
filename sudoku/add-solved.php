@@ -28,7 +28,7 @@ if ($_SERVER["CONTENT_TYPE"] == "text/plain" || array_key_exists("DEBUG", $_GET)
     // Process the puzzle string into a 2D array
     $_PUZZLE = array_map(function($v) {
         return array_map(function($x) {
-            return intval($x);
+            return intval($x) <= 0 ? 0 : intval($x);
         }, explode(" ", $v));
     }, $_PUZZLE);
 
