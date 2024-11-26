@@ -34,7 +34,7 @@ if (array_key_exists("quick-auth-token", $_POST)) {
             unset($_SESSION["login-error"]);
             $stmt->close();
             $conn->close();
-            die("{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}");
+            die("{\"status\": \"success\", \"user\": " . json_encode($res) . "}");
         }
 
         $stmt->close();
