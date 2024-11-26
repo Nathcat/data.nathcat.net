@@ -22,7 +22,7 @@ $DB_schema = "SSO";
 
 if (array_key_exists("quick-auth-token", $_POST)) {
 
-    //try {
+    try {
         $conn = new mysqli($DB_server, $DB_user, $DB_pass, $DB_schema);
         $stmt = $conn->prepare("SELECT Users.* FROM QuickAuth JOIN Users on Users.id = QuickAuth.id WHERE tokenHash = SHA2(?, 256)");
         $stmt->bind_param("s", $_POST["quick-auth-token"]);
@@ -39,10 +39,10 @@ if (array_key_exists("quick-auth-token", $_POST)) {
 
         $stmt->close();
         $conn->close();
-    //}
-    //catch (Exception $e) {
-    //    echo $e;
-    //}
+    }
+    catch (Exception $e) {
+        echo $e;
+    }
 }
 
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
