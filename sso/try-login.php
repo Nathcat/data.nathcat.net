@@ -15,6 +15,26 @@ if (array_key_exists("DEBUG", $_GET)) {
     print_r($_POST);
 }
 
+$DB_server = "localhost:3306";
+$DB_user = "sso";
+$DB_pass = "";
+$DB_schema = "SSO";
+
+if (array_key_exists("quick-auth-token", $_POST)) {
+    $conn = new mysqli($DB_server, $DB_user, $DB_pass, $DB_schema);
+    $stmt = $conn->prepare("SELECT Users.* FROM QuickAuth JOIN Users on Users.id = QuickAuth.id WHERE tokenHash = SHA2(?)");
+    $stmt->bind_param("s", $_POST["quick-auth-token"]);
+    $stmt->execute(); $set = $stmt->get_result();
+
+    $res = $set->fetch_assoc();
+    if ($res !== NULL) {
+        echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
+        $_SESSION["user"] = $DB_r;
+        unset($_SESSION["login-error"]);
+        exit(0);
+    }
+}
+
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
     die("{\"status\": \"fail\", \"message\": \"Invalid request.\"}");
 }
@@ -27,11 +47,6 @@ else if ($_POST["username"] == "" || $_POST["password"] == "") {
 if (array_key_exists("DEBUG", $_GET)) {
     echo "<p>Username: " . $_POST["username"] . "<br>Password: " . $_POST["password"] . "</p>"; 
 }
-
-$DB_server = "localhost:3306";
-$DB_user = "sso";
-$DB_pass = "";
-$DB_schema = "SSO";
 
 $conn = new mysqli($DB_server, $DB_user, $DB_pass, $DB_schema);
 
