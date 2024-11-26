@@ -22,22 +22,27 @@ $DB_schema = "SSO";
 
 if (array_key_exists("quick-auth-token", $_POST)) {
 
-    $conn = new mysqli($DB_server, $DB_user, $DB_pass, $DB_schema);
-    $stmt = $conn->prepare("SELECT Users.* FROM QuickAuth JOIN Users on Users.id = QuickAuth.id WHERE tokenHash = SHA2(?)");
-    $stmt->bind_param("s", $_POST["quick-auth-token"]);
-    $stmt->execute(); $set = $stmt->get_result();
+    try {
+        $conn = new mysqli($DB_server, $DB_user, $DB_pass, $DB_schema);
+        $stmt = $conn->prepare("SELECT Users.* FROM QuickAuth JOIN Users on Users.id = QuickAuth.id WHERE tokenHash = SHA2(?)");
+        $stmt->bind_param("s", $_POST["quick-auth-token"]);
+        $stmt->execute(); $set = $stmt->get_result();
 
-    $res = $set->fetch_assoc();
-    if ($res !== NULL) {
-        $_SESSION["user"] = $DB_r;
-        unset($_SESSION["login-error"]);
+        $res = $set->fetch_assoc();
+        if ($res !== NULL) {
+            $_SESSION["user"] = $DB_r;
+            unset($_SESSION["login-error"]);
+            $stmt->close();
+            $conn->close();
+            die("{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}");
+        }
+
         $stmt->close();
         $conn->close();
-        die("{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}");
     }
-
-    $stmt->close();
-    $conn->close();
+    catch (Exception $e) {
+        echo $e;
+    }
 }
 
 if (!(array_key_exists("username", $_POST) && array_key_exists("password", $_POST))) {
