@@ -173,3 +173,26 @@ AuthCat will reply with either a failiure packet with the same format as above, 
 ```
 
 The `token` field containing the your quick auth token.
+
+Or alternatively, you may add a `GET` parameter `?by-session` to specify that rather than passing user data through the body, you wish to pass the user data through the session cookie.
+
+#### Revoking a token
+
+In order to revoke a login token you should direct your request to endpoint `2.`, with a JSON body in either of the following formats:
+
+```json
+{
+    "id": Integer,
+    "token": String
+}
+```
+
+```json
+{
+    "id": Integer
+}
+```
+
+The first format will delete all tokens for user id `id` where the token matches `token`, which allows you to revoke a single session for a user.
+
+The second format will delete all tokens for a single user with id `id`, which allows you to potentially logout all sessions for a single user.
