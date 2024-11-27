@@ -54,6 +54,10 @@ if ($_SESSION["user"]["passwordUpdated"]) : ?>
             <p>Email: <?php echo $_SESSION["user"]["email"] ?></h1></p>
             <p>Verified: <?php echo $_SESSION["user"]["verified"] == 1 ? "Yes" : "No, <a href='verify'>Click here to verify</a>" ?></p>
             <a href="docs/policies/privacy-policy.php">View our privacy policy</a>
+            <div class="row">
+                <button onclick="sso_create_quick_auth()">Save my login info on this browser</button>
+                <button onclick="sso_revoke_quick_auth(<?php echo $_SESSION['user']['id']; ?>)">Revoke all sessions</button>
+            </div>
         </div>
 
         <button style="width: 100%;" onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>

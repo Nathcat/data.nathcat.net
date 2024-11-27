@@ -28,6 +28,28 @@
 
 <script src="js/slidingEntry.js"></script>
 <script>
+if (window.localStorage.getItem("AuthCat-QuickAuthToken") !== null) {
+    sso_try_login("", "", 
+        (response) => {
+            let fd = new FormData();
+
+            if (response.status === "success") {
+                fd.set("user", JSON.stringify(response.user));
+                <?php 
+                if (array_key_exists("return-page", $_GET)): ?>
+                    window.location = "<?php echo $_GET["return-page"]; ?>";
+                <?php endif; ?>
+
+                location.reload();
+                return;
+            }
+
+            window.localStorage.removeItem("AuthCat-QuickAuthToken");
+            location.reload();
+        }
+    );
+}
+
 slidingEntry_setup(["username-entry", "password-entry"]);
 
 slidingEntry_finished_entry_callback = () => {

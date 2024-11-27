@@ -1,10 +1,14 @@
-const SSO_BASE_URL = "https://data.nathcat.net";
+const SSO_BASE_URL = "http://localhost";
 
 function sso_try_login(username, password, callback) {
 
     let fd = new FormData();
     fd.set("username", username);
     fd.set("password", password);
+
+    if (window.localStorage.getItem("AuthCat-QuickAuthToken") !== null) {
+        fd.set("quick-auth-token", window.localStorage.getItem("AuthCat-QuickAuthToken"));
+    }
 
     fetch(SSO_BASE_URL + "/sso/try-login.php", {
         method: "POST",
@@ -50,4 +54,44 @@ function sso_update_password(new_password, password_reentry) {
         }).then((r) => location.reload());
 
     }
+}
+
+function sso_create_quick_auth() {
+    if (window.localStorage.getItem("AuthCat-QuickAuthToken") !== null) {
+        alert("You have already done this!");
+        return;
+    }
+
+    fetch("/sso/create-quick-auth.php?by-session", {
+        method: "POST",
+        credentials: "include"
+    }).then((r) => r.json()).then((r) => {
+        if (r["status"] === "success") {
+            window.localStorage.setItem("AuthCat-QuickAuthToken", r["token"]);
+            alert("Done!");
+        }
+        else {
+            alert(r["message"]);
+        }
+    });
+}
+
+function sso_revoke_quick_auth(id) {
+    let token = window.localStorage.getItem("AuthCat-QuickAuthToken");
+
+    fetch("/sso/revoke-quick-auth.php", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            "id": id,
+            "token": token === null ? undefined : token
+        })
+    }).then((r) => r.json()).then((r) => {
+        if (r.status === "success") {
+            alert("Done!");
+        }
+        else {
+            alert("Failed! " + r.message);
+        }
+    });
 }
