@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: https://data.nathcat.net");
+header("Access-Control-Allow-Origin: " . $_SERVER["SERVER_PROTOCOL"] . "://" . $_SERVER["SERVER_NAME"]);
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
