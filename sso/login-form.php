@@ -45,7 +45,6 @@ if (window.localStorage.getItem("AuthCat-QuickAuthToken") !== null) {
             }
 
             window.localStorage.removeItem("AuthCat-QuickAuthToken");
-            location.reload();
         }
     );
 }
