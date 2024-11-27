@@ -1,4 +1,4 @@
-const SSO_BASE_URL = "http://localhost";
+const SSO_BASE_URL = "https://data.nathcat.net";
 
 function sso_try_login(username, password, callback) {
 
