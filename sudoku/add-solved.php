@@ -52,6 +52,15 @@ if (array_key_exists("DEBUG", $_GET)) {
 }
 
 try {
+    $stmt = $conn->prepare("INSERT INTO SolvedPuzzles (puzzle) VALUES (?)");
+    $stmt->bind_param("s", preg_replace("/\s+/", "", $_PUZZLE));
+    $stmt->execute(); $stmt->close();
+}
+catch (Exception $e) {
+    echo "{\"status\": \"fail\", \"message\": \"This puzzle has already been solved!\"}";
+}
+
+try {
     $stmt = $conn->prepare("INSERT INTO UserData (id) VALUES (?)");
     $stmt->bind_param("i", $_SESSION["user"]["id"]);
     $stmt->execute(); $stmt->close();
