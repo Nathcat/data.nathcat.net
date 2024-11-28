@@ -21,7 +21,7 @@
 
 <div class="sliding-entry-container">
     <input tabindex="-1" class="big-entry" type="text" id="username-entry" placeholder="Enter your username..."/>
-    <input tabindex="-1" style="left: 100%; top: 0;" class="big-entry" type="password" id="password-entry" placeholder="Enter your password..."/>-->
+    <input tabindex="-1" style="left: 100%; top: 0;" class="big-entry" type="password" id="password-entry" placeholder="Enter your password..."/>
 </div>
 
 <a style="z-index: 1;"href="?newUser">Or, create a new user</a>
