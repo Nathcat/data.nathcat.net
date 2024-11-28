@@ -65,7 +65,7 @@ if (array_key_exists("DEBUG", $_GET)) {
     echo "Done first query.";
 }
 
-$stmt = $conn->prepare("UPDATE UserData SET puzzlesSolved = puzzlesSolved + 1 WHERE id = ?");
+$stmt = $conn->prepare("UPDATE UserData SET puzzlesSolved = puzzlesSolved + 1, hasSolvedToday = 1 WHERE id = ?");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $stmt->close();
 
