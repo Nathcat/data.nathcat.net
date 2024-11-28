@@ -53,7 +53,10 @@ if (array_key_exists("DEBUG", $_GET)) {
 
 try {
     $stmt = $conn->prepare("INSERT INTO SolvedPuzzles (puzzle) VALUES (?)");
-    $stmt->bind_param("s", implode("", $_PUZZLE));
+    $stmt->bind_param("s", implode("", array_map(function($v) {
+        return implode("", $v);
+    }, $_PUZZLE)));
+
     $stmt->execute(); $stmt->close();
 }
 catch (Exception $e) {
