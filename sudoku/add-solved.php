@@ -57,7 +57,7 @@ try {
     $stmt->execute(); $stmt->close();
 }
 catch (Exception $e) {
-    echo "{\"status\": \"fail\", \"message\": \"This puzzle has already been solved!\"}";
+    die("{\"status\": \"fail\", \"message\": \"$e\"}");
 }
 
 try {
