@@ -2,7 +2,7 @@
 include("../sso/start-session.php");
 
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: https://sudoku.nathcat.net");
+header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Credentials: true");
