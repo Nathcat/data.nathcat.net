@@ -100,7 +100,7 @@ function sso_upload_pfp(file) {
     let d = new FormData();
     d.append("file", file);
 
-    fetch("https://cdn.nathcat.net/upload.php", {
+    fetch("https://cdn.nathcat.net/pfps/upload.php", {
         method: "POST",
         body: d
     }).then((r) => r.json()).then((r) => {
