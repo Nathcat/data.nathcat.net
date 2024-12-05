@@ -102,7 +102,7 @@ function sso_upload_pfp(file) {
 
     fetch("https://cdn.nathcat.net/pfps/upload.php", {
         method: "POST",
-        credentials: include,
+        credentials: "include",
         body: d
     }).then((r) => r.json()).then((r) => {
         console.log(r);
