@@ -111,7 +111,7 @@ function sso_upload_pfp(file) {
             alert(r.message);
         }
         else {
-            window.location.search += "&newPfpPath=" + r.name;
+            window.location.search = "newPfpPath=" + r.name;
         }
     });
 }
