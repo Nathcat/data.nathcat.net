@@ -1,0 +1,3 @@
+[submodule "DataCat"]
+	path = DataCat
+	url = https://github.com/Nathcat/DataCat
