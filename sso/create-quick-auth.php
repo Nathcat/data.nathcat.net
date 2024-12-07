@@ -1,10 +1,24 @@
 <?php
-include("start-session.php");
-
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: " . $_SERVER["SERVER_PROTOCOL"] . "://" . $_SERVER["SERVER_NAME"]);
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Credentials: true");
+
+include("start-session.php");
+
+if (!array_key_exists("user", $_SESSION)) {
+    die("{\"status\": \"fail\", \"message\": \"Not logged in.\"}");;
+} else if (array_key_exists("by-session", $_GET)) {
+    $conn = new mysqli("localhost:3306", "sso", "", "SSO");
+    $stmt = $conn->prepare("CALL create_quick_auth(?)");
+    $stmt->bind_param("i", $_SESSION["user"]["id"]);
+    $stmt->execute(); $res = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    $conn->close();
+
+    die("{\"status\": \"success\", \"token\": \"" . $res["t"] . "\"}");
+}
 
 if ($_SERVER["CONTENT_TYPE"] == "application/json") {
     $_POST = json_decode(file_get_contents("php://input"), true);
@@ -23,7 +37,6 @@ $DB_schema = "SSO";
 if (array_key_exists("quick-auth-token", $_POST)) {
 
     try {
-        mysqli_report(MYSQLI_REPORT_ALL);
         $conn = new mysqli($DB_server, $DB_user, $DB_pass, $DB_schema);
         $stmt = $conn->prepare("SELECT Users.* FROM QuickAuth JOIN Users on Users.id = QuickAuth.id WHERE tokenHash = SHA2(?, 256)");
         $stmt->bind_param("s", $_POST["quick-auth-token"]);
@@ -31,7 +44,7 @@ if (array_key_exists("quick-auth-token", $_POST)) {
 
         $res = $set->fetch_assoc();
         if ($res !== NULL) {
-            $_SESSION["user"] = $res;
+            $_SESSION["user"] = $DB_r;
             unset($_SESSION["login-error"]);
             $stmt->close();
             $conn->close();
@@ -73,27 +86,20 @@ $result = $stmt->get_result();
 $DB_r = $result->fetch_assoc();
 
 if (!$DB_r["passwordUpdated"]) {
-    $pass_hash = hash("sha256", $_POST["password"]);
-    
-    if ($DB_r["password"] == $pass_hash) {
-        echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
-        $_SESSION["user"] = $DB_r;
-        unset($_SESSION["login-error"]);
-    }
-    else {
-        echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
-        $_SESSION["login-error"] = "Incorrect username / password";
-    }
+    die("{\"status\": \"fail\", \"message\": \"You must have updated your password to the new system to use this feature.\"}");
 }
 else if (password_verify($_POST["password"], $DB_r["password"])) {
-    echo "{\"status\": \"success\", \"user\": " . json_encode($DB_r) . "}";
-    $_SESSION["user"] = $DB_r;
-    unset($_SESSION["login-error"]);
+    $stmt->close();
+    $stmt = $conn->prepare("CALL create_quick_auth(?)");
+    $stmt->bind_param("i", $DB_r["id"]);
+    $stmt->execute(); $res = $stmt->get_result()->fetch_assoc();
+
+    echo "{\"status\": \"success\", \"token\": \"" . $res["t"] . "\"}";
 }
 else {
-    echo "{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}";
-    $_SESSION["login-error"] = "Incorrect username / password";
+    die("{\"status\": \"fail\", \"message\": \"Incorrect username / password combination.\"}");
 }
 
+$stmt->close();
 $conn->close();
 ?>

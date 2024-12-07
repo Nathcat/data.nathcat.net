@@ -17,19 +17,21 @@ To create a login request, send a POST request to `https://data.nathcat.net/sso/
 {
     "username": <username>,
     "password": <password>
+    // Following is optional, use with Quick Auth
+    "quick-auth-token": <quick-auth-token>
 }
 ```
 The API will then return either a failure message in the format:
 ```json
 {
-    "state": "fail",
+    "status": "fail",
     "message": <error-message>
 }
 ```
 Or a success message in the format:
 ```json
 {
-    "state": "success",
+    "status": "success",
     "user": {
         "id": <id>,
         "username": <username>,
@@ -55,14 +57,14 @@ To create a new user request, send a POST request to `https://data.nathcat.net/s
 The API will then return either a failure message in the format:
 ```json
 {
-    "state": "fail",
+    "status": "fail",
     "message": <error-message>
 }
 ```
 Or a success message in the format:
 ```json
 {
-    "state": "success"
+    "status": "success"
 }
 ```
 
@@ -108,7 +110,7 @@ for both.
 If successful, AuthCat will respond with JSON in the following format:
 ```json
 {
-    "state": "success",
+    "status": "success",
     "results": {
         // "results" contains all returned users, with their ID as the key to their data, like the following:
         <ID>: {
@@ -124,7 +126,7 @@ If successful, AuthCat will respond with JSON in the following format:
 If searching by `id`, and AuthCat cannot find any user with the given `id`, it will respond with:
 ```json
 {
-    "state": "fail", 
+    "status": "fail", 
     "message": "User not found"
 }
 ```
@@ -134,7 +136,63 @@ In other search methods, if no user is found, the `results` field is simply empt
 Other errors will be reported under the response format:
 ```json
 {
-    "state": "fail",
+    "status": "fail",
     "message": String
 }
 ```
+
+### Quick Auth
+
+The Quick Auth system makes use of a token system not based on cookies to make logins last longer.
+
+On the AuthCat page there are buttons which allow users to manage the state of their authentication tokens.
+
+There are two php endpoints which applications can use to manage authentication tokens.
+
+1. `/sso/create-quick-auth.php`
+2. `/sso/revoke-quick-auth.php`
+
+#### Creating a token
+
+Use endpoint `1.` for this task. You should supply the following information as _either_ a form data (`Content-Type: multipart/form-data`), or a JSON body (`Content-Type: application/json`).
+
+```json
+{
+    "username": String,
+    "password": String
+}
+```
+
+AuthCat will reply with either a failiure packet with the same format as above, or a success packet:
+
+```json
+{
+    "status": "success",
+    "token": String
+}
+```
+
+The `token` field containing the your quick auth token.
+
+Or alternatively, you may add a `GET` parameter `?by-session` to specify that rather than passing user data through the body, you wish to pass the user data through the session cookie.
+
+#### Revoking a token
+
+In order to revoke a login token you should direct your request to endpoint `2.`, with a JSON body in either of the following formats:
+
+```json
+{
+    "id": Integer,
+    "token": String
+}
+```
+
+```json
+{
+    "id": Integer
+}
+```
+
+The first format will delete all tokens for user id `id` where the token matches `token`, which allows you to revoke a single session for a user.
+
+The second format will delete all tokens for a single user with id `id`, which allows you to potentially logout all sessions for a single user.

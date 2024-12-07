@@ -1,36 +1,11 @@
 <?php 
-if (isset($_POST["uploadPFP"])) {
-    $new_file = "../pfps/" . $_SESSION["user"]["id"] . ".png";
-    
-    if ($_FILES["uploadFilePFP"]["size"] != 0) {
-        if (getimagesize($_FILES["uploadFilePFP"]["tmp_name"]) !== false) {  // This checks if the file is a valid image
-            if (move_uploaded_file($_FILES["uploadFilePFP"]["tmp_name"], $new_file)) {
-                echo "<div class='content-card'><h2>Uploaded profile picture</h2></div>";
+if (array_key_exists("newPfpPath", $_GET)) {
+    $_SESSION["user"]["pfpPath"] = $_GET["newPfpPath"];
 
-                try {
-                    $conn = new mysqli("localhost:3306", "sso", "", "SSO");
-                    $stmt = $conn->prepare("UPDATE Users SET pfpPath = ? WHERE id = ?");
-                    $new_file_name = $_SESSION["user"]["id"] . ".png";
-                    $stmt->bind_param("sd", $new_file_name, $_SESSION["user"]["id"]);
-                    $stmt->execute();
-                    $conn->close();
-
-                    $_SESSION["user"]["pfpPath"] = $new_file_name;
-                } catch (Exception $e) {
-                    echo "<div class='error-card'><h2>Failed to upload profile picture!</h2><p>" . $e->getMessage() . "</p></div>";
-                }
-            }
-            else {
-                echo "<div class='error-card'><h2>Failed to upload profile picture!</h2></div>";
-            }
-        }
-        else {
-            echo "<div class='error-card'><h2>Please select an image file!</h2></div>";
-        }
-    }
-    else {
-        echo "<div class='error-card'><h2>Please select a file!</h2></div>";
-    }
+    $conn = new mysqli("localhost:3306", "sso", "", "SSO");
+    $stmt = $conn->prepare("UPDATE Users SET pfpPath = ? WHERE id = ?");
+    $stmt->bind_param("si", $_GET["newPfpPath"], $_SESSION["user"]["id"]);
+    $stmt->execute(); $stmt->close(); $conn->close();
 }
 
 if ($_SESSION["user"]["passwordUpdated"]) : ?>
@@ -43,10 +18,10 @@ if ($_SESSION["user"]["passwordUpdated"]) : ?>
             <img src="<?php echo "/pfps/" . $_SESSION["user"]["pfpPath"]; ?>">
         </div>
 
-        <form class="row align-center" method="POST" enctype="multipart/form-data">
-            <input type="file" name="uploadFilePFP" />
-            <input type="submit" name="uploadPFP" value="Upload new profile picture" />
-        </form>
+        <div class="row align-center">
+            <input type="file" id="uploadFilePFP" />
+            <button onclick="sso_upload_pfp(document.getElementById('uploadFilePFP').files[0])">Upload new profile picture</button>
+        </div>
 
         <div class="content-card" style="width: 100%;">
             <h2>User information</h2>
@@ -54,6 +29,10 @@ if ($_SESSION["user"]["passwordUpdated"]) : ?>
             <p>Email: <?php echo $_SESSION["user"]["email"] ?></h1></p>
             <p>Verified: <?php echo $_SESSION["user"]["verified"] == 1 ? "Yes" : "No, <a href='verify'>Click here to verify</a>" ?></p>
             <a href="docs/policies/privacy-policy.php">View our privacy policy</a>
+            <div class="row">
+                <button onclick="sso_create_quick_auth()">Save my login info on this browser</button>
+                <button onclick="sso_revoke_quick_auth(<?php echo $_SESSION['user']['id']; ?>)">Revoke all sessions</button>
+            </div>
         </div>
 
         <button style="width: 100%;" onclick="var xhr = new XMLHttpRequest(); xhr.onload = function() { location.reload(); }; xhr.open('GET', 'logout.php', true); xhr.send();">Logout</button>

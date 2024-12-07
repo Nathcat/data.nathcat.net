@@ -52,6 +52,18 @@ if (array_key_exists("DEBUG", $_GET)) {
 }
 
 try {
+    $stmt = $conn->prepare("INSERT INTO SolvedPuzzles (puzzle) VALUES (?)");
+    $stmt->bind_param("s", implode("", array_map(function($v) {
+        return implode("", $v);
+    }, $_PUZZLE)));
+
+    $stmt->execute(); $stmt->close();
+}
+catch (Exception $e) {
+    die("{\"status\": \"fail\", \"message\": \"$e\"}");
+}
+
+try {
     $stmt = $conn->prepare("INSERT INTO UserData (id) VALUES (?)");
     $stmt->bind_param("i", $_SESSION["user"]["id"]);
     $stmt->execute(); $stmt->close();
@@ -65,7 +77,7 @@ if (array_key_exists("DEBUG", $_GET)) {
     echo "Done first query.";
 }
 
-$stmt = $conn->prepare("UPDATE UserData SET puzzlesSolved = puzzlesSolved + 1 WHERE id = ?");
+$stmt = $conn->prepare("UPDATE UserData SET puzzlesSolved = puzzlesSolved + 1, hasSolvedToday = 1 WHERE id = ?");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 $stmt->execute(); $stmt->close();
 
