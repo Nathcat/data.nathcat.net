@@ -18,7 +18,7 @@ if (array_key_exists("DEBUG", $_GET)) {
 if (!(array_key_exists("username", $_POST) && array_key_exists("email", $_POST) && array_key_exists("password", $_POST) && array_key_exists("password2", $_POST) && array_key_exists("fullName", $_POST))) {
     die("{\"status\": \"fail\", \"message\": \"Invalid request.\"}");
 }
-else if ($_POST["username"] == "" || $_POST["email"] == "" || $_POST["password"] == "" || $_POST["password2"] == "" || $_POST["fullName"] == "") {
+else if (preg_match("/^\\s+$|^$/", $_POST["username"]) || preg_match("/^\\s+$|^$/", $_POST["email"]) || preg_match("/^\\s+\$|^$/", $_POST["password"]) || preg_match("/^\\s+$|^$/", $_POST["password2"]) || preg_match("/^\\s+$|^$/", $_POST["fullName"])) {
     die("{\"status\": \"fail\", \"message\": \"Please do not leave any fields blank.\"}");
 }
 else if ($_POST["password"] != $_POST["password2"]) {
