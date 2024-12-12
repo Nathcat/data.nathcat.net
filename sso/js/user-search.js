@@ -20,7 +20,7 @@ function user_search(username_entry, fullName_entry, results_container_name) {
         results_container.innerHTML = "";
         let results = r.results;
         for (const [key, value] of Object.entries(results)) {
-            fetch(SSO_BASE_URL + "/sso/user-card.php?id=" + key)
+            fetch("/sso/user-card.php?id=" + key)
             .then((r) => r.text())
             .then((r) => {
                 results_container.innerHTML += r;
