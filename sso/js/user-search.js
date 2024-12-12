@@ -5,7 +5,7 @@ function user_search(username_entry, fullName_entry, results_container_name) {
     if (username !== "") body.username = username;
     if (fullName !== "") body.fullName = fullName;
 
-    fetch(SSO_BASE_URL + "/sso/user-search.php", {
+    fetch("/sso/user-search.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
