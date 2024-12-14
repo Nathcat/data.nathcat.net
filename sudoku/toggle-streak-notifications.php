@@ -12,7 +12,7 @@ if (!array_key_exists("user", $_SESSION)) {
 }
 
 $conn = new mysqli("localhost:3306", "Sudoku", "", "Sudoku");
-$stmt = $conn->prepare("UPDATE UserData SET emailStreakNotifications = emailStreakNotifications - 1 WHERE id = ?");
+$stmt = $conn->prepare("UPDATE UserData SET emailStreakNotifications = CAST(1 AS BIT) - emailStreakNotifications WHERE id = ?");
 $stmt->bind_param("i", $_SESSION["user"]["id"]);
 if ($stmt->execute()) {
     $res = [
